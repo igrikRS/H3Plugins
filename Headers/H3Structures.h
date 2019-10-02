@@ -931,7 +931,7 @@ public:
 	// * give an artifact by reference
 	VOID GiveArtifact(H3Artifact *art, INT32 slot) { THISCALL_3(VOID, 0x4E2C70, this, art, slot); }
 	// * learn secondary skill by given increase
-	VOID LearnSecondarySkill(INT32 id, INT32 increase) { return THISCALL_3(VOID, 0x4E52F0, this, id, increase); }
+	VOID LearnSecondarySkill(INT32 id, INT32 increase) { return THISCALL_3(VOID, 0x4E52F0 /* maby is wrong adress? */ , this, id, increase); }
 	// * returns effect (none, basic, ... expert) of a spell on a given terrain
 	INT32 GetSpellExpertise(INT32 spell_id, INT32 special_terrain) { return THISCALL_3(INT32, 0x4E52F0, this, spell_id, special_terrain); }
 	// * does this hero own creature of type...?
