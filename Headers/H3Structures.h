@@ -2208,7 +2208,7 @@ struct H3CreatureFlags
 	unsigned UNDEAD : 1;				// 40000
 	unsigned ATTACKALLAROUND : 1;		// 80000
 	unsigned MAGOG : 1;					// 100000
-	unsigned CANNOTMOVE : 1;			// 200000 ~21
+	unsigned DIE : 1;			// 200000 ~21
 	unsigned SUMMON : 1;				// 400000
 	unsigned CLONE : 1;					// 800000
 	unsigned MORALE : 1;				// 1000000
@@ -2482,7 +2482,18 @@ public:
 	// * Checks if hypnotized
 	INT32 GetSide() { return THISCALL_1(INT, 0x43FE60, this); }
 	// * Checks if hypnotized
-	H3Hero * GetOwner() { return THISCALL_1(H3Hero*, 0x4423B0, this); }
+	H3Hero *GetOwner() { return THISCALL_1(H3Hero*, 0x4423B0, this); }
+	// * Get sum hit points of all alive monsters in this stack
+	INT32 GetFullHealth(BOOL isAI) { return THISCALL_2(INT32, 0x442DA0, this, isAI); }
+	// * the bonus/decreased effect on a spell
+	INT32 GetProtectiveSpellEffect(INT32 damage, INT32 spellID) { return STDCALL_3(INT32, 0x5A7EC0, damage, spellID, this); }
+	// can creature shooting
+	BOOL CanShoot(H3CombatMonster* target = NULL) { return THISCALL_2(BOOL, 0x442610, this, target); }
+	// can apply spell in this stack
+	INT32 CanApplySpell(INT32 spellID, INT32 sideCaster, BOOL isPlayer, INT32 casterType) 
+	{ 
+		return THISCALL_6(INT32, 0x5A3F90, (*(H3CombatManager**)0x699420), spellID, sideCaster, this, isPlayer, casterType); 
+	}
 };
 
 struct H3PrimarySkills
@@ -4005,6 +4016,10 @@ public:
 	VOID ShadeSquare(int index);
 	BOOL8 IsHumanTurn() { return isHuman[currentActiveSide]; }
 	VOID AddStatusMessage(LPCSTR message, BOOL permanent = TRUE) { THISCALL_4(VOID, 0x4729D0, dlg, message, permanent, 0); }
+	INT32 CanUseSpell(INT32 spellID, INT32 sideCaster, H3CombatMonster* mon, BOOL isPlayer, INT32 casterType) 
+	{ 
+		return THISCALL_6(INT32, 0x5A3F90, this, spellID, sideCaster, mon, isPlayer, casterType); 
+	}
 };
 
 #pragma pack(pop)
